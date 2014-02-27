@@ -19,7 +19,7 @@ class UI extends GameObject
 		
 	}
 	
-	private function addCloseButton()
+	public function addCloseButton()
 	{
 		closeButton = new Sprite();
 		closeButton.graphics.beginFill( 0xFF0000 );

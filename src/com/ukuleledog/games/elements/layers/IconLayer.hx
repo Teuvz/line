@@ -47,7 +47,6 @@ class IconLayer extends Layer
 				Actuate.tween( backpack, 0.5, { x:ICON_X_TRIPLE_BACKPACK } ).ease( Bounce.easeOut );
 				Actuate.tween( talk, 0.5, { x:ICON_X_TRIPLE_TALK } ).ease( Bounce.easeOut );
 				e.x = ICON_X_TRIPLE_OBJECT;
-				trace(Type.getClass(e));
 		}
 		
 		e.y = 768;

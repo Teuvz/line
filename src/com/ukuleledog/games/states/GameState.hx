@@ -3,12 +3,16 @@ package com.ukuleledog.games.states;
 import com.ukuleledog.games.core.GameObject;
 import com.ukuleledog.games.core.Layer;
 import com.ukuleledog.games.core.State;
+import com.ukuleledog.games.elements.icon.BookIcon;
+import com.ukuleledog.games.elements.icon.EarphoneIcon;
 import com.ukuleledog.games.elements.icon.PhoneIcon;
 import com.ukuleledog.games.elements.layers.IconLayer;
 import com.ukuleledog.games.elements.icon.BackpackIcon;
 import com.ukuleledog.games.elements.icon.TalkIcon;
 import com.ukuleledog.games.elements.icon.Icon;
 import com.ukuleledog.games.elements.layers.RoomLayer;
+import com.ukuleledog.games.elements.objects.BookObject;
+import com.ukuleledog.games.elements.objects.EarphoneObject;
 import com.ukuleledog.games.elements.objects.InventoryObject;
 import com.ukuleledog.games.elements.objects.PhoneObject;
 import com.ukuleledog.games.elements.people.Avatar;
@@ -23,6 +27,7 @@ import flash.ui.Mouse;
 import haxe.Timer;
 import motion.Actuate;
 import motion.easing.Bounce;
+import src.com.ukuleledog.games.elements.ui.BookUI;
 
 /**
  * ...
@@ -36,9 +41,12 @@ class GameState extends State
 	private var uiLayer:Layer;
 	
 	// icons
+	private var stopButton:Sprite;
 	private var backpackIcon:BackpackIcon;
 	private var talkIcon:TalkIcon;
 	private var phoneIcon:PhoneIcon;
+	private var earphoneIcon:EarphoneIcon;
+	private var bookIcon:BookIcon;
 	
 	// people
 	private var avatar:Avatar;
@@ -46,10 +54,10 @@ class GameState extends State
 	
 	// ui
 	private var backpackUI:BackpackUI;
+	private var bookUI:BookUI;
 	
 	// current game
 	private var currentObject:InventoryObject;
-	private var currentObjectIcon:Icon;
 	private var currentPerson:Person;
 	
 	public function new() 
@@ -69,7 +77,6 @@ class GameState extends State
 		initUI();
 		
 		currentPerson = fatGuy;
-		currentObjectIcon = new Icon();
 	}
 	
 	private function initRoom()
@@ -96,8 +103,18 @@ class GameState extends State
 		iconLayer.add( talkIcon );
 		
 		phoneIcon = new PhoneIcon();
+		earphoneIcon = new EarphoneIcon();
+		bookIcon = new BookIcon();
 		
 		iconsActivate();
+		
+		stopButton = new Sprite();
+		stopButton.graphics.beginFill( 0xFF0000 );
+		stopButton.graphics.drawRect( 0, 0, 20, 20 );
+		stopButton.graphics.endFill();
+		stopButton.x = 555;
+		stopButton.y = 650;
+		stopButton.buttonMode = true;
 	}
 	
 	private function initUI()
@@ -108,23 +125,80 @@ class GameState extends State
 		backpackUI = new BackpackUI();
 		backpackUI.x = 162;
 		backpackUI.y = 34;
+		
+		bookUI = new BookUI();
+		bookUI.x = 362;
+		bookUI.y = 134;
 	}
+	
+	// ICONS
 	
 	private function iconsActivate()
 	{
 		backpackIcon.addEventListener( MouseEvent.CLICK, displayInventory );
 		iconLayer.show();
+		
+		if ( Inventory.selectedObject != null )
+			addChild( stopButton );
 	}
 	
 	private function iconsDeactivate()
 	{
 		backpackIcon.removeEventListener( MouseEvent.CLICK, displayInventory );
 		iconLayer.hide();
+		
+		if ( Inventory.selectedObject != null )
+			removeChild( stopButton );
+	}
+	
+	private function stopSelectedObject( e:Event = null )
+	{
+			
+		stopButton.removeEventListener( MouseEvent.CLICK, stopSelectedObject );
+		
+		if ( e != null )
+			removeChild( stopButton );
+		
+		switch( Type.getClass( currentObject ) )
+		{
+			case PhoneObject:
+				iconLayer.remove( phoneIcon );
+			case EarphoneObject:
+				iconLayer.remove( earphoneIcon );
+			case BookObject:
+				iconLayer.remove( bookIcon );
+		}
+		
+		Inventory.selectedObject = null;
+		currentObject = null;
+		
+	}
+	
+	private function setSelectedObject()
+	{
+		currentObject = Inventory.selectedObject;
+		
+		switch( Type.getClass( currentObject ) )
+		{
+			case PhoneObject:
+				iconLayer.add( phoneIcon );
+			case EarphoneObject:
+				iconLayer.add( earphoneIcon );
+			case BookObject:
+				iconLayer.add( bookIcon );
+				bookIcon.addEventListener( MouseEvent.CLICK, displayBook );
+		}
+		
+		addChild( stopButton );
+		stopButton.addEventListener( MouseEvent.CLICK, stopSelectedObject );
 	}
 	
 	private function displayInventory( e:MouseEvent )
 	{
 		iconsDeactivate();
+			
+		if ( currentObject != null )
+			stopSelectedObject();
 		
 		backpackUI.addEventListener( Event.COMPLETE, closeInventory );
 		uiLayer.add( backpackUI );
@@ -141,15 +215,23 @@ class GameState extends State
 			setSelectedObject();
 	}
 	
-	private function setSelectedObject()
+	private function displayBook( e:MouseEvent )
 	{
-		currentObject = Inventory.selectedObject;
+		bookIcon.removeEventListener( MouseEvent.CLICK, displayBook );
+		iconsDeactivate();
 		
-		switch( Type.getClass( currentObject ) )
-		{
-			case PhoneObject:
-				iconLayer.add( phoneIcon );
-		}
+		uiLayer.add( bookUI );
+		bookUI.closeButton.addEventListener( MouseEvent.CLICK, hideBook );
 	}
 	
+	private function hideBook( e:MouseEvent )
+	{
+		bookIcon.addEventListener( MouseEvent.CLICK, displayBook );
+		uiLayer.remove( bookUI );
+		iconsActivate();
+		bookUI.closeButton.removeEventListener( MouseEvent.CLICK, hideBook );
+	}
+	
+	
+		
 }

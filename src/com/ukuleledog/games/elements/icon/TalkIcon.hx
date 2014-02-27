@@ -26,6 +26,7 @@ class TalkIcon extends Icon
 		this.graphics.drawRect( 0, 0, 100, 100 );
 		this.graphics.endFill();
 		
+		label.text = 'Talk';
 	}
 	
 }
