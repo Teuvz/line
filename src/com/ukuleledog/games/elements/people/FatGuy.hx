@@ -4,12 +4,13 @@ package com.ukuleledog.games.elements.people;
  * ...
  * @author Matt
  */
-class Avatar extends Person
+class FatGuy extends Person
 {
 
 	public function new() 
 	{
 		super();
+		this.label.text = 'FatGuy';
 	}
 	
 }

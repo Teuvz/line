@@ -21,7 +21,7 @@ class PhoneIcon extends Icon
 	{
 		removeEventListener( Event.ADDED_TO_STAGE, init );
 		
-		this.graphics.beginFill( 0xFF0000 );
+		this.graphics.beginFill( 0x00FFFF );
 		this.graphics.drawRect( 0, 0, 100, 100 );
 		this.graphics.endFill();
 		

@@ -50,7 +50,8 @@ class IconLayer extends Layer
 				trace(Type.getClass(e));
 		}
 		
-		e.y = ICON_Y;
+		e.y = 768;
+		Actuate.tween( e, 0.5, {y: ICON_Y} ).ease( Bounce.easeOut );
 		
 		addChild( e );
 	}
@@ -61,6 +62,16 @@ class IconLayer extends Layer
 		
 		Actuate.tween( backpack, 0.5, { x:ICON_X_DOUBLE_BACKPACK } ).ease( Bounce.easeOut );
 		Actuate.tween( talk, 0.5, { x:ICON_X_DOUBLE_TALK } ).ease( Bounce.easeOut );
+	}
+	
+	public function show()
+	{
+		Actuate.tween( this, 0.5, {y:0} ).ease( Bounce.easeOut );
+	}
+	
+	public function hide()
+	{
+		Actuate.tween( this, 0.5, {y:200} );
 	}
 	
 }
