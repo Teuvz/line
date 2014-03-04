@@ -1,8 +1,10 @@
 package com.ukuleledog.games.elements.ui;
 import com.ukuleledog.games.elements.icon.BookIcon;
+import com.ukuleledog.games.elements.icon.ComicBookIcon;
 import com.ukuleledog.games.elements.icon.EarphoneIcon;
 import com.ukuleledog.games.elements.icon.PhoneIcon;
 import com.ukuleledog.games.elements.objects.BookObject;
+import com.ukuleledog.games.elements.objects.ComicBookObject;
 import com.ukuleledog.games.elements.objects.EarphoneObject;
 import com.ukuleledog.games.elements.objects.InventoryObject;
 import com.ukuleledog.games.elements.objects.PhoneObject;
@@ -24,6 +26,7 @@ class BackpackUI extends UI
 	private var phoneIcon:PhoneIcon;
 	private var earphoneIcon:EarphoneIcon;
 	private var bookIcon:BookIcon;
+	private var comicbookIcon:ComicBookIcon;
 	
 	public function new() 
 	{
@@ -51,6 +54,7 @@ class BackpackUI extends UI
 		phoneIcon = new PhoneIcon();		
 		earphoneIcon = new EarphoneIcon();
 		bookIcon = new BookIcon();
+		comicbookIcon = new ComicBookIcon();
 	}
 	
 	private function hideIcons()
@@ -87,6 +91,15 @@ class BackpackUI extends UI
 			displayedIcons++;
 		}
 		
+		if ( Inventory.COMICBOOK )
+		{
+			comicbookIcon.x = (ICON_FIRST_X * (displayedIcons+1)) + (100 * displayedIcons);
+			comicbookIcon.y = ICON_FIRST_Y;
+			comicbookIcon.addEventListener( MouseEvent.CLICK, comicbookHandle );
+			addChild( comicbookIcon );
+			displayedIcons++;
+		}
+		
 	}
 	
 	private function phoneHandle( e:Event )
@@ -107,6 +120,13 @@ class BackpackUI extends UI
 	{
 		hideIcons();
 		Inventory.selectedObject = new BookObject();
+		dispatchEvent( new Event( Event.COMPLETE ) );
+	}
+	
+	private function comicbookHandle( e:Event )
+	{
+		hideIcons();
+		Inventory.selectedObject = new ComicBookObject();
 		dispatchEvent( new Event( Event.COMPLETE ) );
 	}
 	

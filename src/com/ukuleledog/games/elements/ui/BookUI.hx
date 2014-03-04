@@ -1,6 +1,7 @@
 package src.com.ukuleledog.games.elements.ui;
 
 import com.ukuleledog.games.elements.ui.UI;
+import flash.events.Event;
 
 /**
  * ...
@@ -17,8 +18,15 @@ class BookUI extends UI
 		graphics.drawRect( 0, 0, 300, 500 );
 		graphics.endFill();
 		
-		addCloseButton();
+		addEventListener( Event.ADDED_TO_STAGE, init );
+	}
+	
+	private function init( e:Event )
+	{
+		removeEventListener( Event.ADDED_TO_STAGE, init );
 		
+		setUiPosition();
+		addCloseButton();
 	}
 	
 }

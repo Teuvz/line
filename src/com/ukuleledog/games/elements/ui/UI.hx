@@ -16,7 +16,12 @@ class UI extends GameObject
 	public function new() 
 	{
 		super();
-		
+	}
+	
+	public function setUiPosition()
+	{		
+		this.x = (stage.stageWidth / 2) - (this.width / 2);
+		this.y = (stage.stageHeight / 2) - (this.height / 2);
 	}
 	
 	public function addCloseButton()

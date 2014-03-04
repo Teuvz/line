@@ -3,9 +3,6 @@ package com.ukuleledog.games.states;
 import com.ukuleledog.games.core.GameObject;
 import com.ukuleledog.games.core.Layer;
 import com.ukuleledog.games.core.State;
-import com.ukuleledog.games.elements.icon.BookIcon;
-import com.ukuleledog.games.elements.icon.EarphoneIcon;
-import com.ukuleledog.games.elements.icon.PhoneIcon;
 import com.ukuleledog.games.elements.layers.IconLayer;
 import com.ukuleledog.games.elements.icon.BackpackIcon;
 import com.ukuleledog.games.elements.icon.TalkIcon;
@@ -19,6 +16,7 @@ import com.ukuleledog.games.elements.people.Avatar;
 import com.ukuleledog.games.elements.people.FatGuy;
 import com.ukuleledog.games.elements.people.Person;
 import com.ukuleledog.games.elements.ui.BackpackUI;
+import com.ukuleledog.games.elements.ui.UI;
 import com.ukuleledog.games.line.Inventory;
 import flash.display.Sprite;
 import flash.events.Event;
@@ -44,9 +42,6 @@ class GameState extends State
 	private var stopButton:Sprite;
 	private var backpackIcon:BackpackIcon;
 	private var talkIcon:TalkIcon;
-	private var phoneIcon:PhoneIcon;
-	private var earphoneIcon:EarphoneIcon;
-	private var bookIcon:BookIcon;
 	
 	// people
 	private var avatar:Avatar;
@@ -54,11 +49,12 @@ class GameState extends State
 	
 	// ui
 	private var backpackUI:BackpackUI;
-	private var bookUI:BookUI;
 	
 	// current game
 	private var currentObject:InventoryObject;
 	private var currentPerson:Person;
+	private var currentIcon:Icon;
+	private var currentUI:UI;
 	
 	public function new() 
 	{
@@ -101,11 +97,7 @@ class GameState extends State
 		
 		talkIcon = new TalkIcon();
 		iconLayer.add( talkIcon );
-		
-		phoneIcon = new PhoneIcon();
-		earphoneIcon = new EarphoneIcon();
-		bookIcon = new BookIcon();
-		
+				
 		iconsActivate();
 		
 		stopButton = new Sprite();
@@ -125,10 +117,6 @@ class GameState extends State
 		backpackUI = new BackpackUI();
 		backpackUI.x = 162;
 		backpackUI.y = 34;
-		
-		bookUI = new BookUI();
-		bookUI.x = 362;
-		bookUI.y = 134;
 	}
 	
 	// ICONS
@@ -159,16 +147,8 @@ class GameState extends State
 		if ( e != null )
 			removeChild( stopButton );
 		
-		switch( Type.getClass( currentObject ) )
-		{
-			case PhoneObject:
-				iconLayer.remove( phoneIcon );
-			case EarphoneObject:
-				iconLayer.remove( earphoneIcon );
-			case BookObject:
-				iconLayer.remove( bookIcon );
-		}
-		
+		iconLayer.remove( currentIcon );
+			
 		Inventory.selectedObject = null;
 		currentObject = null;
 		
@@ -177,17 +157,10 @@ class GameState extends State
 	private function setSelectedObject()
 	{
 		currentObject = Inventory.selectedObject;
-		
-		switch( Type.getClass( currentObject ) )
-		{
-			case PhoneObject:
-				iconLayer.add( phoneIcon );
-			case EarphoneObject:
-				iconLayer.add( earphoneIcon );
-			case BookObject:
-				iconLayer.add( bookIcon );
-				bookIcon.addEventListener( MouseEvent.CLICK, displayBook );
-		}
+			
+		currentIcon = currentObject.getIcon();
+		iconLayer.add( currentIcon );
+		currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
 		
 		addChild( stopButton );
 		stopButton.addEventListener( MouseEvent.CLICK, stopSelectedObject );
@@ -215,21 +188,23 @@ class GameState extends State
 			setSelectedObject();
 	}
 	
-	private function displayBook( e:MouseEvent )
+	private function displayObjectUI( e:MouseEvent )
 	{
-		bookIcon.removeEventListener( MouseEvent.CLICK, displayBook );
+		currentIcon.removeEventListener( MouseEvent.CLICK, displayObjectUI );
 		iconsDeactivate();
 		
-		uiLayer.add( bookUI );
-		bookUI.closeButton.addEventListener( MouseEvent.CLICK, hideBook );
+		currentUI = currentObject.getUI();
+		
+		uiLayer.add( currentUI );
+		currentUI.closeButton.addEventListener( MouseEvent.CLICK, hideObjectUI );
 	}
 	
-	private function hideBook( e:MouseEvent )
+	private function hideObjectUI( e:MouseEvent )
 	{
-		bookIcon.addEventListener( MouseEvent.CLICK, displayBook );
-		uiLayer.remove( bookUI );
+		currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
+		uiLayer.remove( currentUI );
 		iconsActivate();
-		bookUI.closeButton.removeEventListener( MouseEvent.CLICK, hideBook );
+		currentUI.closeButton.removeEventListener( MouseEvent.CLICK, hideObjectUI );
 	}
 	
 	
