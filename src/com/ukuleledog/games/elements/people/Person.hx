@@ -2,7 +2,9 @@ package com.ukuleledog.games.elements.people;
 
 import com.ukuleledog.games.core.AnimatedObject;
 import com.ukuleledog.games.core.GameObject;
+import com.ukuleledog.games.elements.objects.InventoryObject;
 import flash.text.TextField;
+import flash.Vector.Vector;
 
 /**
  * ...
@@ -24,6 +26,12 @@ class Person extends AnimatedObject
 		label = new TextField();
 		label.selectable = false;
 		addChild( label );
+		
+	}
+	
+	public function interactWithObject( o:InventoryObject ) : Bool
+	{
+		return false;	
 	}
 	
 }

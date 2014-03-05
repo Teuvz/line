@@ -55,6 +55,7 @@ class GameState extends State
 	private var currentPerson:Person;
 	private var currentIcon:Icon;
 	private var currentUI:UI;
+	private var mouseDrag:Bool = false;
 	
 	public function new() 
 	{
@@ -135,8 +136,8 @@ class GameState extends State
 		backpackIcon.removeEventListener( MouseEvent.CLICK, displayInventory );
 		iconLayer.hide();
 		
-		if ( Inventory.selectedObject != null )
-			removeChild( stopButton );
+		/*if ( Inventory.selectedObject != null )
+			removeChild( stopButton );*/
 	}
 	
 	private function stopSelectedObject( e:Event = null )
@@ -160,7 +161,8 @@ class GameState extends State
 			
 		currentIcon = currentObject.getIcon();
 		iconLayer.add( currentIcon );
-		currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
+		//currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
+		currentIcon.addEventListener( MouseEvent.MOUSE_DOWN, moveObjectStart );
 		
 		addChild( stopButton );
 		stopButton.addEventListener( MouseEvent.CLICK, stopSelectedObject );
@@ -171,7 +173,7 @@ class GameState extends State
 		iconsDeactivate();
 			
 		if ( currentObject != null )
-			stopSelectedObject();
+			stopSelectedObject(e);
 		
 		backpackUI.addEventListener( Event.COMPLETE, closeInventory );
 		uiLayer.add( backpackUI );
@@ -188,9 +190,9 @@ class GameState extends State
 			setSelectedObject();
 	}
 	
-	private function displayObjectUI( e:MouseEvent )
+	private function displayObjectUI( e:MouseEvent = null )
 	{
-		currentIcon.removeEventListener( MouseEvent.CLICK, displayObjectUI );
+		//currentIcon.removeEventListener( MouseEvent.CLICK, displayObjectUI );
 		iconsDeactivate();
 		
 		currentUI = currentObject.getUI();
@@ -201,12 +203,61 @@ class GameState extends State
 	
 	private function hideObjectUI( e:MouseEvent )
 	{
-		currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
 		uiLayer.remove( currentUI );
 		iconsActivate();
 		currentUI.closeButton.removeEventListener( MouseEvent.CLICK, hideObjectUI );
 	}
 	
+	private function moveObjectListener( e:MouseEvent )
+	{
+		removeEventListener( MouseEvent.MOUSE_MOVE, moveObjectListener );
+		mouseDrag = true;
+	}
 	
+	private function moveObjectStart( e:MouseEvent )
+	{
+		mouseDrag = false;
+		
+		addEventListener( MouseEvent.MOUSE_MOVE, moveObjectListener );
+		currentIcon.removeEventListener( MouseEvent.MOUSE_DOWN, moveObjectStart );
+		currentIcon.addEventListener( MouseEvent.MOUSE_UP, moveObjectStop );
+		
+		currentIcon.startDrag();
+		removeChild( stopButton );
+	}
+	
+	private function moveObjectStop( e:MouseEvent )
+	{
+		
+		currentIcon.stopDrag();
+		currentIcon.addEventListener( MouseEvent.MOUSE_DOWN, moveObjectStart );
+		currentIcon.removeEventListener( MouseEvent.MOUSE_UP, moveObjectStop );
+		
+		if ( mouseDrag )
+		{
+			
+			if ( currentIcon.hitTestObject( currentPerson ) )
+			{
+				if ( currentPerson.interactWithObject( currentObject ) )
+				{
+					trace( 'give ' + Type.getClass(currentObject) + ' to ' + Type.getClass( currentPerson ) );
+					stopSelectedObject();
+				}
+				else
+				{
+					trace( Type.getClass(currentPerson) + " doesn't want " + Type.getClass(currentObject) );
+					Actuate.tween( currentIcon, 0.5, { x:465, y:660 } ).ease( Bounce.easeOut );
+					addChild( stopButton );
+				}
+			}
+			else
+			{
+				Actuate.tween( currentIcon, 0.5, { x:465, y:660 } ).ease( Bounce.easeOut );
+				addChild( stopButton );
+			}
+		} else {
+			displayObjectUI();
+		}
+	}
 		
 }

@@ -6,8 +6,7 @@ import com.ukuleledog.games.elements.objects.InventoryObject;
  * @author Matt
  */
 class Inventory
-{
-
+{	
 	public static var SMARTPHONE:Bool = true;
 	public static var EARPHONES:Bool = true;
 	public static var BOOK:Bool = true;

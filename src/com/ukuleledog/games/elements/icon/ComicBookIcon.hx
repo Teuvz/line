@@ -25,7 +25,7 @@ class ComicBookIcon extends Icon
 		this.graphics.drawRect( 0, 0, 100, 100 );
 		this.graphics.endFill();
 		
-		label.text = 'Book';
+		label.text = 'Comic Book';
 	}
 	
 }

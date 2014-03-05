@@ -44,7 +44,7 @@ class BackpackUI extends UI
 	
 	private function init( e:Event )
 	{
-		removeEventListener( Event.ADDED_TO_STAGE, init );
+		//removeEventListener( Event.ADDED_TO_STAGE, init );
 		
 		displayIcons();
 	}
@@ -59,11 +59,37 @@ class BackpackUI extends UI
 	
 	private function hideIcons()
 	{
+		if ( Inventory.SMARTPHONE )
+		{
+			phoneIcon.removeEventListener( MouseEvent.CLICK, phoneHandle );
+			removeChild( phoneIcon );
+		}
 		
+		if ( Inventory.EARPHONES )
+		{
+			earphoneIcon.removeEventListener( MouseEvent.CLICK, earphoneHandle );
+			removeChild( earphoneIcon );
+		}
+		
+		if ( Inventory.BOOK )
+		{
+			bookIcon.removeEventListener( MouseEvent.CLICK, bookHandle );
+			removeChild( bookIcon );
+		}
+		
+		if ( Inventory.COMICBOOK )
+		{
+			comicbookIcon.removeEventListener( MouseEvent.CLICK, comicbookHandle );
+			removeChild( comicbookIcon );
+		}
+
 	}
 	
 	private function displayIcons()
 	{
+		
+		displayedIcons = 0;
+		
 		if ( Inventory.SMARTPHONE )
 		{
 			phoneIcon.x = ICON_FIRST_X;
@@ -93,6 +119,7 @@ class BackpackUI extends UI
 		
 		if ( Inventory.COMICBOOK )
 		{
+			trace( Inventory.COMICBOOK == true );
 			comicbookIcon.x = (ICON_FIRST_X * (displayedIcons+1)) + (100 * displayedIcons);
 			comicbookIcon.y = ICON_FIRST_Y;
 			comicbookIcon.addEventListener( MouseEvent.CLICK, comicbookHandle );
