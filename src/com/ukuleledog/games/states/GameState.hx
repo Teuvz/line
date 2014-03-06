@@ -16,12 +16,14 @@ import com.ukuleledog.games.elements.people.Avatar;
 import com.ukuleledog.games.elements.people.FatGuy;
 import com.ukuleledog.games.elements.people.Person;
 import com.ukuleledog.games.elements.ui.BackpackUI;
+import com.ukuleledog.games.elements.ui.DialogBubble;
 import com.ukuleledog.games.elements.ui.UI;
 import com.ukuleledog.games.line.Inventory;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.ui.Mouse;
+import flash.Vector.Vector;
 import haxe.Timer;
 import motion.Actuate;
 import motion.easing.Bounce;
@@ -49,6 +51,7 @@ class GameState extends State
 	
 	// ui
 	private var backpackUI:BackpackUI;
+	private var dialogBubbles:Vector<DialogBubble>;
 	
 	// current game
 	private var currentObject:InventoryObject;
@@ -118,6 +121,8 @@ class GameState extends State
 		backpackUI = new BackpackUI();
 		backpackUI.x = 162;
 		backpackUI.y = 34;
+		
+		dialogBubbles = new Vector<DialogBubble>();
 	}
 	
 	// ICONS
@@ -125,6 +130,7 @@ class GameState extends State
 	private function iconsActivate()
 	{
 		backpackIcon.addEventListener( MouseEvent.CLICK, displayInventory );
+		talkIcon.addEventListener( MouseEvent.CLICK, talkStart );
 		iconLayer.show();
 		
 		if ( Inventory.selectedObject != null )
@@ -135,9 +141,6 @@ class GameState extends State
 	{
 		backpackIcon.removeEventListener( MouseEvent.CLICK, displayInventory );
 		iconLayer.hide();
-		
-		/*if ( Inventory.selectedObject != null )
-			removeChild( stopButton );*/
 	}
 	
 	private function stopSelectedObject( e:Event = null )
@@ -161,7 +164,6 @@ class GameState extends State
 			
 		currentIcon = currentObject.getIcon();
 		iconLayer.add( currentIcon );
-		//currentIcon.addEventListener( MouseEvent.CLICK, displayObjectUI );
 		currentIcon.addEventListener( MouseEvent.MOUSE_DOWN, moveObjectStart );
 		
 		addChild( stopButton );
@@ -171,6 +173,7 @@ class GameState extends State
 	private function displayInventory( e:MouseEvent )
 	{
 		iconsDeactivate();
+		talkStop();
 			
 		if ( currentObject != null )
 			stopSelectedObject(e);
@@ -192,7 +195,6 @@ class GameState extends State
 	
 	private function displayObjectUI( e:MouseEvent = null )
 	{
-		//currentIcon.removeEventListener( MouseEvent.CLICK, displayObjectUI );
 		iconsDeactivate();
 		
 		currentUI = currentObject.getUI();
@@ -258,6 +260,77 @@ class GameState extends State
 		} else {
 			displayObjectUI();
 		}
+	}
+	
+	private function talkStart( e:MouseEvent )
+	{
+		talkIcon.removeEventListener( MouseEvent.CLICK, talkStart );
+		talkIcon.addEventListener( MouseEvent.CLICK, talkStop );
+		
+		talkIcon.alpha = 0.5;
+				
+		var dialogs:Vector<String> = currentPerson.getDialogOptions();
+		var i:Int = 0;
+		var dialogWidth:Float = 0;
+		
+		while ( i < dialogs.length )
+		{
+			var bubble:DialogBubble = new DialogBubble( dialogs[i] );
+			dialogBubbles.push( bubble );
+			addChild( bubble );
+			bubble.y = (talkIcon.y + (talkIcon.height - bubble.height) / 2 ) - 50;
+			
+			if ( i == 0 )
+				bubble.x = talkIcon.x;
+			else
+				bubble.x = dialogBubbles[i - 1].x + dialogBubbles[i - 1].width;
+			
+			dialogWidth += bubble.width;
+			
+			bubble.addEventListener( MouseEvent.CLICK, talkAction );
+			bubble.name = Std.string(i);
+			
+			i++;
+		}
+		
+		var dialogPadding:Float = dialogWidth / 3;
+		
+		while ( i-- > 0 )
+		{
+			dialogBubbles[i].x -= dialogPadding;
+		}
+		
+	}
+	
+	private function talkStop( e:MouseEvent = null )
+	{
+		talkIcon.removeEventListener( MouseEvent.CLICK, talkStop );
+		talkIcon.addEventListener( MouseEvent.CLICK, talkStart );
+		
+		talkIcon.alpha = 1;
+		
+		var i:Int = dialogBubbles.length;
+		
+		while ( --i >= 0 )
+		{
+			var tempBubble:DialogBubble = dialogBubbles[i];
+			var newY:Float = talkIcon.y + (talkIcon.height - tempBubble.height) / 2;
+			var newX:Float = talkIcon.x + (talkIcon.width - tempBubble.width) / 2;
+			Actuate.tween( tempBubble, 0.5, { y:newY, x:newX, alpha:0 } ).ease(Bounce.easeOut).onComplete(function() {
+				removeChild(tempBubble);
+			});
+			tempBubble.removeEventListener( MouseEvent.CLICK, talkAction );
+		}
+		
+		dialogBubbles = new Vector<DialogBubble>();
+		
+	}
+	
+	private function talkAction( e:MouseEvent )
+	{
+		talkStop();
+		
+		trace( currentPerson.getDialogAnswer( Std.parseInt(e.currentTarget.name) ) );
 	}
 		
 }

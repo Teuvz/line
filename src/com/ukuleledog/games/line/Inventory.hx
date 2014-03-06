@@ -11,7 +11,7 @@ class Inventory
 	public static var EARPHONES:Bool = true;
 	public static var BOOK:Bool = true;
 	
-	public static var COMICBOOK:Bool = true;
+	public static var COMICBOOK:Bool = false;
 	public static var PURSE:Bool = false;
 	public static var BROKENPURSE:Bool = false;
 	public static var COINS:Bool = false;

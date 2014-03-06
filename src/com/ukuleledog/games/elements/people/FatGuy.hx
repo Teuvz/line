@@ -15,6 +15,14 @@ class FatGuy extends Person
 	{
 		super();
 		this.label.text = 'FatGuy';
+		
+		dialogOptions.push( "You're fat!" );
+		dialogOptions.push( "You smell funny..." );
+		dialogOptions.push( "What are you reading?" );
+		
+		dialogAnswers.push( "It's the weight of my personality." );
+		dialogAnswers.push( "Must be because I work out too much." );
+		dialogAnswers.push( "The latest LeatherGirl! Damn I like this comic. She's so... sexy. I'd kill to have a gal like that!" );
 	}
 	
 	override public function interactWithObject( o:InventoryObject ) : Bool
@@ -24,9 +32,6 @@ class FatGuy extends Person
 		{
 			case BookObject:
 				trace("I don't like that book.");
-			case ComicBookObject:
-				trace("Oh, thanks dude!");
-				Inventory.COMICBOOK = false;
 				return true;
 		}
 		

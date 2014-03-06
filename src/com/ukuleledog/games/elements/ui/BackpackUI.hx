@@ -119,7 +119,6 @@ class BackpackUI extends UI
 		
 		if ( Inventory.COMICBOOK )
 		{
-			trace( Inventory.COMICBOOK == true );
 			comicbookIcon.x = (ICON_FIRST_X * (displayedIcons+1)) + (100 * displayedIcons);
 			comicbookIcon.y = ICON_FIRST_Y;
 			comicbookIcon.addEventListener( MouseEvent.CLICK, comicbookHandle );
