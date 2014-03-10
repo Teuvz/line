@@ -254,14 +254,16 @@ class GameState extends State
 				else
 				{
 					
-					switch( Math.floor(Math.random() * 3) )
+					switch( Math.floor(Math.random()*4) )
 					{
 						case 0:
 							avatar.showDialog("I might need that later.");
 						case 1:
 							avatar.showDialog("That's mine! I'm not giving it away.");
-						default:
+						case 2:
 							avatar.showDialog("Hmmmmmm... no.");
+						default:
+							avatar.showDialog("Nope.");
 					}
 					
 					//iconLayer.hide();

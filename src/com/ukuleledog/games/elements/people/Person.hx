@@ -7,6 +7,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 import flash.Vector.Vector;
+import openfl.Assets;
 
 /**
  * ...
@@ -39,16 +40,16 @@ class Person extends AnimatedObject
 		
 		dialogFormat = new TextFormat();
 		dialogFormat.align = TextFormatAlign.CENTER;
+		dialogFormat.font = "assets/font/dialog";
 		
 		dialogBox = new TextField();
-		dialogBox.border = true;
-		dialogBox.borderColor = 0xFFFFFF;
 		dialogBox.width = 300;
 		dialogBox.multiline = true;
 		dialogBox.wordWrap = true;
 		dialogBox.selectable = false;
 		dialogBox.textColor = 0xFFFFFF;
 		dialogBox.x = -100;
+		dialogBox.embedFonts = true;
 	}
 	
 	public function interactWithObject( o:InventoryObject ) : Bool

@@ -1,5 +1,7 @@
 package com.ukuleledog.games.elements.ui;
 import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 /**
  * ...
@@ -9,14 +11,21 @@ class DialogBubble extends UI
 {
 
 	private var textField:TextField;
+	private var textFormat:TextFormat;
 	
 	public function new( s:String ) 
 	{
 		super();
 		
+		textFormat = new TextFormat();
+		textFormat.align = TextFormatAlign.CENTER;
+		textFormat.font = "assets/font/dialog";
+		
 		textField = new TextField();
 		addChild( textField );
 		textField.text = s;
+		textField.embedFonts = true;
+		textField.setTextFormat( textFormat );
 		
 		textField.width = textField.textWidth + 5;
 		textField.height = textField.textHeight + 5;
