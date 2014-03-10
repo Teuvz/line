@@ -4,6 +4,8 @@ import com.ukuleledog.games.core.AnimatedObject;
 import com.ukuleledog.games.core.GameObject;
 import com.ukuleledog.games.elements.objects.InventoryObject;
 import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.Vector.Vector;
 
 /**
@@ -17,6 +19,8 @@ class Person extends AnimatedObject
 	
 	public var dialogOptions:Vector<String>;
 	public var dialogAnswers:Vector<String>;
+	public var dialogBox:TextField;
+	public var dialogFormat:TextFormat;
 	
 	public function new() 
 	{
@@ -32,6 +36,19 @@ class Person extends AnimatedObject
 		
 		dialogOptions = new Vector<String>();
 		dialogAnswers = new Vector<String>();
+		
+		dialogFormat = new TextFormat();
+		dialogFormat.align = TextFormatAlign.CENTER;
+		
+		dialogBox = new TextField();
+		dialogBox.border = true;
+		dialogBox.borderColor = 0xFFFFFF;
+		dialogBox.width = 300;
+		dialogBox.multiline = true;
+		dialogBox.wordWrap = true;
+		dialogBox.selectable = false;
+		dialogBox.textColor = 0xFFFFFF;
+		dialogBox.x = -100;
 	}
 	
 	public function interactWithObject( o:InventoryObject ) : Bool
@@ -44,9 +61,36 @@ class Person extends AnimatedObject
 		return dialogOptions;
 	}
 	
+	public function getDialogText( id:Int ) : String
+	{
+		return dialogOptions[id];
+	}
+	
 	public function getDialogAnswer( id:Int ) : String
 	{
+		trace( dialogAnswers[id] );
 		return dialogAnswers[id];
+	}
+	
+	public function showDialogAnswer( id:Int )
+	{
+		showDialog( dialogAnswers[id] );
+	}
+	
+	public function showDialog( str:String )
+	{
+		dialogBox.text = str;
+		dialogBox.setTextFormat( dialogFormat );
+		
+		dialogBox.height = dialogBox.textHeight + 5;
+		dialogBox.y = - dialogBox.height - 5;
+		
+		addChild( dialogBox );
+	}
+	
+	public function hideDialog()
+	{
+		removeChild( dialogBox );
 	}
 	
 }

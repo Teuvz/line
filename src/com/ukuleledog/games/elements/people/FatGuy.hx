@@ -3,6 +3,8 @@ import com.ukuleledog.games.elements.objects.BookObject;
 import com.ukuleledog.games.elements.objects.ComicBookObject;
 import com.ukuleledog.games.elements.objects.InventoryObject;
 import com.ukuleledog.games.line.Inventory;
+import com.ukuleledog.games.states.GameState;
+import haxe.Timer;
 
 /**
  * ...
@@ -30,8 +32,11 @@ class FatGuy extends Person
 		
 		switch( Type.getClass( o ) )
 		{
-			case BookObject:
-				trace("I don't like that book.");
+			case BookObject:				
+				showDialog( "I don't like that book." );
+				Timer.delay( function() {
+					hideDialog();
+				}, 3000 );
 				return true;
 		}
 		

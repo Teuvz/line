@@ -14,6 +14,7 @@ import com.ukuleledog.games.elements.objects.InventoryObject;
 import com.ukuleledog.games.elements.objects.PhoneObject;
 import com.ukuleledog.games.elements.people.Avatar;
 import com.ukuleledog.games.elements.people.FatGuy;
+import com.ukuleledog.games.elements.people.OldLady;
 import com.ukuleledog.games.elements.people.Person;
 import com.ukuleledog.games.elements.ui.BackpackUI;
 import com.ukuleledog.games.elements.ui.DialogBubble;
@@ -36,6 +37,8 @@ import src.com.ukuleledog.games.elements.ui.BookUI;
 class GameState extends State
 {
 
+	static inline var DIALOG_DURATION = 3000;
+	
 	private var roomLayer:Layer;
 	private var iconLayer:IconLayer;
 	private var uiLayer:Layer;
@@ -48,6 +51,7 @@ class GameState extends State
 	// people
 	private var avatar:Avatar;
 	private var fatGuy:FatGuy;
+	private var oldLady:OldLady;
 	
 	// ui
 	private var backpackUI:BackpackUI;
@@ -83,6 +87,9 @@ class GameState extends State
 	{
 		roomLayer = new RoomLayer();
 		addChild( roomLayer );
+
+		oldLady = new OldLady();
+		roomLayer.add( oldLady );
 		
 		fatGuy = new FatGuy();
 		roomLayer.add( fatGuy );
@@ -242,14 +249,30 @@ class GameState extends State
 			{
 				if ( currentPerson.interactWithObject( currentObject ) )
 				{
-					trace( 'give ' + Type.getClass(currentObject) + ' to ' + Type.getClass( currentPerson ) );
 					stopSelectedObject();
 				}
 				else
 				{
-					trace( Type.getClass(currentPerson) + " doesn't want " + Type.getClass(currentObject) );
+					
+					switch( Math.floor(Math.random() * 3) )
+					{
+						case 0:
+							avatar.showDialog("I might need that later.");
+						case 1:
+							avatar.showDialog("That's mine! I'm not giving it away.");
+						default:
+							avatar.showDialog("Hmmmmmm... no.");
+					}
+					
+					//iconLayer.hide();
+					
+					Timer.delay( function() {
+						avatar.hideDialog();
+						//iconLayer.show();
+						addChild( stopButton );
+					}, 3000 );
+					
 					Actuate.tween( currentIcon, 0.5, { x:465, y:660 } ).ease( Bounce.easeOut );
-					addChild( stopButton );
 				}
 			}
 			else
@@ -328,9 +351,32 @@ class GameState extends State
 	
 	private function talkAction( e:MouseEvent )
 	{
-		talkStop();
 		
-		trace( currentPerson.getDialogAnswer( Std.parseInt(e.currentTarget.name) ) );
+		iconLayer.hide();
+		
+		if ( currentObject != null )
+			removeChild( stopButton );
+		
+		var id:Int = Std.parseInt(e.currentTarget.name);
+		
+		talkStop();		
+		avatar.showDialog( currentPerson.getDialogText( id ) );
+		
+		Timer.delay( function() {
+			avatar.hideDialog();
+			currentPerson.showDialogAnswer( id );
+			
+			Timer.delay(function() {
+				currentPerson.hideDialog();
+				iconLayer.show();
+				
+				if ( currentObject != null )
+					addChild( stopButton );
+				
+			}, DIALOG_DURATION);
+			
+		}, DIALOG_DURATION );
+		
 	}
 		
 }

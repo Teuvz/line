@@ -4,6 +4,7 @@ import com.ukuleledog.games.core.GameObject;
 import com.ukuleledog.games.core.Layer;
 import com.ukuleledog.games.elements.people.Avatar;
 import com.ukuleledog.games.elements.people.FatGuy;
+import com.ukuleledog.games.elements.people.OldLady;
 
 /**
  * ...
@@ -12,11 +13,14 @@ import com.ukuleledog.games.elements.people.FatGuy;
 class RoomLayer extends Layer
 {
 
-	public var POSITION_AVATAR_X_ORIGIN:UInt = 250;
-	public var POSITION_AVATAR_Y_ORIGIN:UInt = 300;
+	static inline var POSITION_AVATAR_X_ORIGIN:UInt = 250;
+	static inline var POSITION_AVATAR_Y_ORIGIN:UInt = 300;
 	
-	public var POSITION_FATGUY_X_ORIGIN:UInt = 400;
-	public var POSITION_FATGUY_Y_ORIGIN:UInt = 300;
+	static inline var POSITION_FATGUY_X_ORIGIN:UInt = 400;
+	static inline var POSITION_FATGUY_Y_ORIGIN:UInt = 300;
+	
+	static inline var POSITION_OLDLADY_X_ORIGIN:UInt = 430;
+	static inline var POSITION_OLDLADY_Y_ORIGIN:UInt = 300;
 		
 	public function new() 
 	{
@@ -35,6 +39,9 @@ class RoomLayer extends Layer
 			case FatGuy:
 				e.x = POSITION_FATGUY_X_ORIGIN;
 				e.y = POSITION_FATGUY_Y_ORIGIN;
+			case OldLady:
+				e.x = POSITION_OLDLADY_X_ORIGIN;
+				e.y = POSITION_OLDLADY_Y_ORIGIN;
 		}
 		
 		addChild( e );
