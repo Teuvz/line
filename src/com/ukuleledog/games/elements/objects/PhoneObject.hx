@@ -1,6 +1,6 @@
 package com.ukuleledog.games.elements.objects;
 import com.ukuleledog.games.elements.icon.PhoneIcon;
-import src.com.ukuleledog.games.elements.ui.BookUI;
+import src.com.ukuleledog.games.elements.ui.PhoneUI;
 
 /**
  * ...
@@ -14,7 +14,7 @@ class PhoneObject extends InventoryObject
 		super();
 		
 		icon = new PhoneIcon();
-		ui = new BookUI();	
+		ui = new PhoneUI();	
 	}
 	
 }

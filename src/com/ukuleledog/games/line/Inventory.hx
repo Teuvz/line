@@ -8,7 +8,7 @@ import com.ukuleledog.games.elements.objects.InventoryObject;
 class Inventory
 {	
 	public static var SMARTPHONE:Bool = true;
-	public static var EARPHONES:Bool = true;
+	public static var EARPHONES:Bool = false;
 	public static var BOOK:Bool = true;
 	
 	public static var COMICBOOK:Bool = false;
