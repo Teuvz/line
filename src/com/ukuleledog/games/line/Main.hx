@@ -2,6 +2,8 @@ package com.ukuleledog.games.line;
 
 import com.ukuleledog.games.line.StateManager;
 import flash.display.Sprite;
+import flash.display.StageDisplayState;
+import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.Lib;
 
@@ -28,6 +30,12 @@ class Main extends Sprite
 		inited = true;
 
 		// (your code here)
+		
+		// INIT
+		/*stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+		stage.scaleMode = StageScaleMode.NO_SCALE;*/
+		
+		// STATE
 		addChild( new StateManager() );
 		
 		// Stage:

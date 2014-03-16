@@ -10,7 +10,7 @@ import motion.Actuate;
 class StateManagerCore extends Sprite
 {
 
-	private var currentState:State;
+	public var currentState:State;
 	
 	public function new() 
 	{
@@ -30,6 +30,15 @@ class StateManagerCore extends Sprite
 		Actuate.tween( currentState, 1, { alpha:1 } ).onComplete(function() {
 			removeChild( currentState );
 			currentState = null;
+		});
+	}
+	
+	public function replaceState( state:State )
+	{
+		Actuate.tween( currentState, 1, { alpha:1 } ).onComplete(function() {
+			removeChild( currentState );
+			currentState = null;
+			setState( state );
 		});
 	}
 	

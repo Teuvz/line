@@ -20,6 +20,7 @@ import com.ukuleledog.games.elements.ui.BackpackUI;
 import com.ukuleledog.games.elements.ui.DialogBubble;
 import com.ukuleledog.games.elements.ui.UI;
 import com.ukuleledog.games.line.Inventory;
+import com.ukuleledog.games.line.Text;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -254,7 +255,9 @@ class GameState extends State
 				else
 				{
 					
-					switch( Math.floor(Math.random()*4) )
+					avatar.showDialog( Text.getInstance().getText( "unwantedObject"+Math.floor(Math.random()*4), Text.TEXT_OTHER) );
+					
+					/*switch(  )
 					{
 						case 0:
 							avatar.showDialog("I might need that later.");
@@ -264,7 +267,7 @@ class GameState extends State
 							avatar.showDialog("Hmmmmmm... no.");
 						default:
 							avatar.showDialog("Nope.");
-					}
+					}*/
 					
 					//iconLayer.hide();
 					
