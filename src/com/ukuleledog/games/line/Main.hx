@@ -32,8 +32,11 @@ class Main extends Sprite
 		// (your code here)
 		
 		// INIT
-		/*stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-		stage.scaleMode = StageScaleMode.NO_SCALE;*/
+		if ( Configuration.getInstance().isFullscreen() )
+		{
+			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+		}
 		
 		// STATE
 		addChild( new StateManager() );

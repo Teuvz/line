@@ -22,5 +22,27 @@
 				<fr>Nan.</fr>
 			</unwantedObject3>
 		</other>
+		<object>
+			<phone>
+				<en>Phone</en>
+				<fr>Téléphone</fr>
+			</phone>
+			<contacts>
+				<en>Contacts</en>
+				<fr>Contacts</fr>
+			</contacts>
+			<camera>
+				<en>Camera</en>
+				<fr>Camera</fr>
+			</camera>
+			<music>
+				<en>Music</en>
+				<fr>Musique</fr>
+			</music>
+			<store>
+				<en>Store</en>
+				<fr>Boutique</fr>
+			</store>
+		</object>
 	</texts>
 </data>

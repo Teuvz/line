@@ -110,8 +110,12 @@ class AnimatedObject extends GameObject
 	private function kill( e:Event )
 	{
 		removeEventListener(Event.REMOVED_FROM_STAGE, kill);
-		animationTimer.stop();
-		animationTimer = null;
+		
+		if ( animationTimer != null )
+		{
+			animationTimer.stop();
+			animationTimer = null;
+		}
 	}
 	
 }

@@ -1,5 +1,5 @@
 package com.ukuleledog.games.line;
-import com.ukuleledog.games.elements.ui.UI;
+import com.ukuleledog.games.line.elements.ui.UI;
 
 /**
  * ...
@@ -37,7 +37,7 @@ class Configuration
 		return currentLanguage;
 	}
 	
-	public function isFullScreen() : Bool
+	public function isFullscreen() : Bool
 	{
 		return ( currentDisplay == DISPLAY_FULLSCREEN );
 	}

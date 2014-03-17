@@ -1,5 +1,5 @@
 package com.ukuleledog.games.line;
-import com.ukuleledog.games.elements.objects.InventoryObject;
+import com.ukuleledog.games.line.elements.objects.InventoryObject;
 
 /**
  * ...

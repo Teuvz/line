@@ -1,6 +1,7 @@
 package com.ukuleledog.games.core;
 
 import flash.display.Sprite;
+import flash.events.Event;
 import motion.Actuate;
 
 /**
@@ -22,7 +23,10 @@ class StateManagerCore extends Sprite
 		currentState = state;
 		currentState.alpha = 0;
 		addChild( currentState );
-		Actuate.tween( currentState, 1, {alpha:1} );
+		Actuate.tween( currentState, 1, { alpha:1 } );
+		
+		positionState();
+		stage.addEventListener( Event.RESIZE, positionState );
 	}
 	
 	public function removeState()
@@ -40,6 +44,13 @@ class StateManagerCore extends Sprite
 			currentState = null;
 			setState( state );
 		});
+	}
+	
+	private function positionState( e:Event = null )
+	{
+		currentState.x = (stage.stageWidth - currentState.width) / 2;
+		currentState.y = (stage.stageHeight - currentState.height) / 2;
+		trace('window resized');
 	}
 	
 }

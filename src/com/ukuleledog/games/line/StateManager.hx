@@ -2,8 +2,8 @@ package com.ukuleledog.games.line;
 
 import com.ukuleledog.games.core.State;
 import com.ukuleledog.games.core.StateManagerCore;
-import com.ukuleledog.games.states.GameState;
-import com.ukuleledog.games.states.SplashState;
+import com.ukuleledog.games.line.states.GameState;
+import com.ukuleledog.games.line.states.SplashState;
 import flash.events.Event;
 import flash.Vector.Vector;
 
