@@ -14,6 +14,7 @@ import com.ukuleledog.games.line.elements.objects.InventoryObject;
 import com.ukuleledog.games.line.elements.objects.PhoneObject;
 import com.ukuleledog.games.line.elements.people.Avatar;
 import com.ukuleledog.games.line.elements.people.FatGuy;
+import com.ukuleledog.games.line.elements.people.HipsterDude;
 import com.ukuleledog.games.line.elements.people.OldLady;
 import com.ukuleledog.games.line.elements.people.Person;
 import com.ukuleledog.games.line.elements.ui.BackpackUI;
@@ -54,6 +55,7 @@ class GameState extends State
 	private var avatar:Avatar;
 	private var fatGuy:FatGuy;
 	private var oldLady:OldLady;
+	private var hipsterDude:HipsterDude;
 	
 	// ui
 	private var backpackUI:BackpackUI;
@@ -95,6 +97,9 @@ class GameState extends State
 		roomLayer = new RoomLayer();
 		addChild( roomLayer );
 
+		hipsterDude = new HipsterDude();
+		roomLayer.add( hipsterDude );
+		
 		oldLady = new OldLady();
 		roomLayer.add( oldLady );
 		
@@ -415,6 +420,10 @@ class GameState extends State
 				fatGuy = null;
 				currentPerson = oldLady;
 				Inventory.COMICBOOK = true;
+			case OldLady:
+				oldLady = null;
+				currentPerson = hipsterDude;
+				Inventory.PURSE = true;
 		}
 				
 	}

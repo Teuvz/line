@@ -72,7 +72,6 @@ class Person extends AnimatedObject
 	
 	public function getDialogAnswer( id:Int ) : String
 	{
-		trace( dialogAnswers[id] );
 		return dialogAnswers[id];
 	}
 	

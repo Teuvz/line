@@ -2,6 +2,7 @@ package src.com.ukuleledog.games.line.elements.ui;
 
 import com.ukuleledog.games.line.elements.ui.phone.object.ObjectCamera;
 import com.ukuleledog.games.line.elements.ui.phone.object.ObjectContacts;
+import com.ukuleledog.games.line.elements.ui.phone.object.ObjectGallery;
 import com.ukuleledog.games.line.elements.ui.phone.object.ObjectHome;
 import com.ukuleledog.games.line.elements.ui.phone.object.ObjectMusic;
 import com.ukuleledog.games.line.elements.ui.phone.object.ObjectPhone;
@@ -104,6 +105,7 @@ class PhoneUI extends UI
 			case 'contacts':
 				currentScreenObject = new ObjectContacts();
 				currentScreen = currentScreenObject.getScreen();
+				currentScreen.addEventListener( PhoneUiEvent.CALL, handlePhoneCall );
 			case 'music':
 				currentScreenObject = new ObjectMusic();
 				currentScreen = currentScreenObject.getScreen();
@@ -113,6 +115,9 @@ class PhoneUI extends UI
 			case 'camera':
 				currentScreenObject = new ObjectCamera();
 				currentScreen = currentScreenObject.getScreen();
+			case 'gallery':
+				currentScreenObject = new ObjectGallery();
+				currentScreen = currentScreenObject.getScreen();
 		}
 		
 		
@@ -121,14 +126,16 @@ class PhoneUI extends UI
 	}
 	
 	private function handleHome( e:MouseEvent = null )
-	{
-		trace('go home');
-		
+	{		
 		switch( currentScreenObject.name )
 		{
 			case 'home':
 			case 'phone':
 				currentScreen.removeEventListener( PhoneUiEvent.CALL, handlePhoneCall );
+				screen.removeChild( currentScreen );
+			case 'contacts':
+				currentScreen.removeEventListener( PhoneUiEvent.CALL, handlePhoneCall );
+				screen.removeChild( currentScreen );
 			default:
 				screen.removeChild( currentScreen );
 				trace( 'disable ' + currentScreenObject.name );

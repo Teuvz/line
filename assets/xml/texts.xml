@@ -43,6 +43,10 @@
 				<en>Store</en>
 				<fr>Boutique</fr>
 			</store>
+			<gallery>
+				<en>Gallery</en>
+				<fr>Gallerie</fr>
+			</gallery>
 		</object>
 	</texts>
 </data>

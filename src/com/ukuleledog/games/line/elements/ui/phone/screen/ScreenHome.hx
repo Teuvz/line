@@ -1,6 +1,7 @@
 package com.ukuleledog.games.line.elements.ui.phone.screen;
 import com.ukuleledog.games.line.elements.ui.phone.icon.IconCamera;
 import com.ukuleledog.games.line.elements.ui.phone.icon.IconContacts;
+import com.ukuleledog.games.line.elements.ui.phone.icon.IconGallery;
 import com.ukuleledog.games.line.elements.ui.phone.icon.IconMusic;
 import com.ukuleledog.games.line.elements.ui.phone.icon.IconPhone;
 import com.ukuleledog.games.line.elements.ui.phone.icon.IconStore;
@@ -22,6 +23,7 @@ class ScreenHome extends PhoneUiScreen
 	public var btnMusic:PhoneUiIcon;
 	public var btnStore:PhoneUiIcon;
 	public var btnCamera:PhoneUiIcon;
+	public var btnGallery:PhoneUiIcon;
 	
 	public function new() 
 	{
@@ -67,6 +69,12 @@ class ScreenHome extends PhoneUiScreen
 		addChild( btnCamera );
 		btnCamera.addEventListener( MouseEvent.CLICK, handleCamera );
 		
+		btnGallery = new IconGallery();
+		btnGallery.x = btnCamera.x + btnCamera.width + 20;
+		btnGallery.y = btnCamera.y;
+		addChild( btnGallery );
+		btnGallery.addEventListener( MouseEvent.CLICK, handleGallery );
+		
 	}
 	
 	private function handlePhone( e:MouseEvent )
@@ -92,6 +100,11 @@ class ScreenHome extends PhoneUiScreen
 	private function handleCamera( e:MouseEvent )
 	{
 		dispatchEvent( new PhoneUiEvent( PhoneUiEvent.SCREEN, 'camera' ) );
+	}
+	
+	private function handleGallery( e:MouseEvent )
+	{
+		dispatchEvent( new PhoneUiEvent( PhoneUiEvent.SCREEN, 'gallery' ) );
 	}
 	
 }

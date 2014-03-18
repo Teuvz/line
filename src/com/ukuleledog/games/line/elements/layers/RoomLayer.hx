@@ -4,6 +4,7 @@ import com.ukuleledog.games.core.GameObject;
 import com.ukuleledog.games.core.Layer;
 import com.ukuleledog.games.line.elements.people.Avatar;
 import com.ukuleledog.games.line.elements.people.FatGuy;
+import com.ukuleledog.games.line.elements.people.HipsterDude;
 import com.ukuleledog.games.line.elements.people.OldLady;
 
 /**
@@ -21,6 +22,9 @@ class RoomLayer extends Layer
 	
 	static inline var POSITION_OLDLADY_X_ORIGIN:UInt = 430;
 	static inline var POSITION_OLDLADY_Y_ORIGIN:UInt = 300;
+	
+	static inline var POSITION_HIPSTERDUDE_X_ORIGIN:UInt = 460;
+	static inline var POSITION_HIPSTERDUDE_Y_ORIGIN:UInt = 300;
 		
 	public function new() 
 	{
@@ -42,6 +46,9 @@ class RoomLayer extends Layer
 			case OldLady:
 				e.x = POSITION_OLDLADY_X_ORIGIN;
 				e.y = POSITION_OLDLADY_Y_ORIGIN;
+			case HipsterDude:
+				e.x = POSITION_HIPSTERDUDE_X_ORIGIN;
+				e.y = POSITION_HIPSTERDUDE_Y_ORIGIN;
 		}
 		
 		addChild( e );
