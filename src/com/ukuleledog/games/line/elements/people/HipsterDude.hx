@@ -13,7 +13,8 @@ import haxe.Timer;
 class HipsterDude extends Person
 {
 
-	
+	private var seenBook:Bool = false;
+	private var heardMusic:Bool = false;
 	
 	public function new() 
 	{
@@ -34,15 +35,41 @@ class HipsterDude extends Person
 		
 		switch( Type.getClass( o ) )
 		{
-			case BookObject:				
-				showDialog( "I don't like that book." );
+			case BookObject:
+				seenBook = true;
+				showDialog( "How dare you show me that book with that cover? You should have bought it BEFORE the movie came out!" );
 				Timer.delay( function() {
 					hideDialog();
+					checkLeave();
 				}, 3000 );
 				return true;
 		}
 		
 		return false;	
+	}
+	
+	override public function interactWithMusic() : Bool
+	{
+		
+		heardMusic = true;
+		showDialog( "How can you POSSIBLY listen to music on a phone? It's a PHONE!! Go get yourself a walkman for christ's sake." );
+		Timer.delay( function() {
+			hideDialog();
+			checkLeave();
+		}, 3000 );
+		
+		return true;
+	}
+	
+	private function checkLeave()
+	{		
+		if ( seenBook && heardMusic )
+		{
+			showDialog( "You fool !" );
+			Timer.delay( function() {
+				leave();
+			}, 3000 );
+		}
 	}
 	
 }

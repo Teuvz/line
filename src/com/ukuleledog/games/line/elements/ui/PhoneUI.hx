@@ -109,6 +109,7 @@ class PhoneUI extends UI
 			case 'music':
 				currentScreenObject = new ObjectMusic();
 				currentScreen = currentScreenObject.getScreen();
+				currentScreen.addEventListener( PhoneUiEvent.MUSIC, handlePhoneMusic );
 			case 'store':
 				currentScreenObject = new ObjectStore();
 				currentScreen = currentScreenObject.getScreen();
@@ -132,6 +133,7 @@ class PhoneUI extends UI
 			case 'home':
 			case 'phone':
 				currentScreen.removeEventListener( PhoneUiEvent.CALL, handlePhoneCall );
+				currentScreen.removeEventListener( PhoneUiEvent.MUSIC, handlePhoneMusic );
 				screen.removeChild( currentScreen );
 			case 'contacts':
 				currentScreen.removeEventListener( PhoneUiEvent.CALL, handlePhoneCall );
@@ -148,4 +150,9 @@ class PhoneUI extends UI
 		dispatchEvent( new PhoneUiEvent( e.type, e.getData() ) );
 	}
 	
+	private function handlePhoneMusic( e:PhoneUiEvent )
+	{
+		dispatchEvent( new PhoneUiEvent( e.type, e.getData() ) );
+	}
+		
 }

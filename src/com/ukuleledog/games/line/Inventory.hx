@@ -1,5 +1,6 @@
 package com.ukuleledog.games.line;
 import com.ukuleledog.games.line.elements.objects.InventoryObject;
+import flash.media.SoundChannel;
 
 /**
  * ...
@@ -26,6 +27,9 @@ class Inventory
 	public static var WIG:Bool = false;
 	
 	public static var selectedObject:InventoryObject;
+	public static var musicPlaying:Bool = false;
+	public static var musicId:Int;
+	public static var musicChannel:SoundChannel;
 	
 	public function new() 
 	{

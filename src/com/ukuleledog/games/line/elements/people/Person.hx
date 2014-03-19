@@ -101,6 +101,12 @@ class Person extends AnimatedObject
 		return false;
 	}
 	
+	public function interactWithMusic() : Bool
+	{
+		trace('interaction');
+		return false;
+	}
+	
 	public function leave()
 	{
 		Actuate.tween( this, 2, {alpha:0} );

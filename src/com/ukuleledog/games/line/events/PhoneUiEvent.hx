@@ -14,6 +14,7 @@ class PhoneUiEvent extends Event
 	public static var COMPLETE:String = 'complete';
 	public static var SCREEN:String = 'screen';
 	public static var CALL:String = 'call';
+	public static var MUSIC:String = 'music';
 	
 	public function new( type:String, data:String = null ) 
 	{

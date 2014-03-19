@@ -221,6 +221,7 @@ class GameState extends State
 		if ( Type.getClass( currentObject ) == PhoneObject )
 		{
 			currentUI.addEventListener( PhoneUiEvent.CALL, phoneCallHandle );
+			currentUI.addEventListener( PhoneUiEvent.MUSIC, phoneMusicHandle );
 		}
 		
 		uiLayer.add( currentUI );
@@ -232,6 +233,7 @@ class GameState extends State
 		if ( Type.getClass( currentObject ) == PhoneObject )
 		{
 			currentUI.removeEventListener( PhoneUiEvent.CALL, phoneCallHandle );
+			currentUI.removeEventListener( PhoneUiEvent.MUSIC, phoneMusicHandle );
 		}
 		
 		uiLayer.remove( currentUI );
@@ -259,7 +261,6 @@ class GameState extends State
 	
 	private function moveObjectStop( e:MouseEvent )
 	{
-		
 		currentIcon.stopDrag();
 		currentIcon.addEventListener( MouseEvent.MOUSE_DOWN, moveObjectStart );
 		currentIcon.removeEventListener( MouseEvent.MOUSE_UP, moveObjectStop );
@@ -407,12 +408,29 @@ class GameState extends State
 		}
 	}
 	
-	private function changePerson( e:Event )
+	private function phoneMusicHandle( e:PhoneUiEvent )
 	{
+		
+		trace('music');
+		
+		if ( currentPerson.interactWithMusic() )
+		{
+			hideObjectUI();
+		}
+	}
+	
+	private function changePerson( e:Event )
+	{		
 		currentPerson.removeEventListener( Event.COMPLETE, changePerson );
 		roomLayer.remove( currentPerson );
-		stopSelectedObject();
-		removeChild( stopButton );
+		
+		iconLayer.hide();
+		
+		if ( currentObject != null )
+		{
+			stopSelectedObject();
+			removeChild( stopButton );
+		}
 		
 		switch( Type.getClass(currentPerson) )
 		{
@@ -424,8 +442,19 @@ class GameState extends State
 				oldLady = null;
 				currentPerson = hipsterDude;
 				Inventory.PURSE = true;
+			case HipsterDude:
+				hipsterDude = null;
+				//currentPerson = hipsterDude;
+				Inventory.HAT = true;
+				Inventory.GLASSES = true;
 		}
-				
+		
+		currentPerson.addEventListener( Event.COMPLETE, changePerson );
+		
+		Timer.delay( function() {
+			iconLayer.show();
+		}, 1000 );
+		
 	}
 		
 }

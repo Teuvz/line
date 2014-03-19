@@ -50,7 +50,6 @@ class StateManagerCore extends Sprite
 	{
 		currentState.x = (stage.stageWidth - currentState.width) / 2;
 		currentState.y = (stage.stageHeight - currentState.height) / 2;
-		trace('window resized');
 	}
 	
 }
